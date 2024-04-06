@@ -1,38 +1,50 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-import './App.css'
+import "./App.css";
 
 function App() {
   const [position, setPosition] = useState({});
-  const [countClicks , setCountClicks] = useState(0);
+  const [countClicks, setCountClicks] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const {error , setError} = useState(null);
 
+  function handelClick() {
+    setCountClicks(countClicks + 1);
 
-  function handelClick(){
-    setCountClicks(countClicks + 1)
-
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position.coords.latitude);
-      setPosition(position.coords);
-
-
-    });
-
-
+    if (navigator.geolocation) {
+      setIsLoading(true);
+      navigator.geolocation.getCurrentPosition((position) => {
+        setPosition({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      }, (error) => {
+        setError(error.message) 
+      });
+    }else {
+      setError("Geolocation is not supported by this browser.")
+      alert("Geolocation is not supported by this browser.")
+    }
+    setIsLoading(false);
 
   }
-  console.log( " pos => ",  position.latitude)
-useEffect( function (){
-}, [])
+  console.log(" pos => ", position.latitude);
+    useEffect(function () {}, []);
 
   return (
     <div>
-     <button onClick={handelClick}  >Get my position </button>
-     {/* { position !== 0 && <p>Your GPS position: {position} </p> } */}
-    {position.length > 0 && <p>Your GPS position: {position.longitude} {position.latitude} </p>}
+      <button onClick={handelClick} disabled={isLoading} >Get my position </button>
+      {error && <p>{error}</p>}
+      {isLoading && <p>Loading...</p>}
+      {position.longitude && (
+        <p>
+          Your GPS position is: 
+         <a target="_blank" rel="noreferrer" href={`https://www.google.com/maps/@${position.latitude},${position.longitude},15z`}> Long {position.longitude} Lat {position.latitude}</a>
+        </p>
+      )}
       <p>You requested position {countClicks} times</p>
-
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
