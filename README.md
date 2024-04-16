@@ -1,8 +1,5 @@
-# React + Vite
+# IP based geolocation 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple geolocation app that uses the browser navigator's geolocation api to get the location of a user and redirecting it to a google maps page with the location 
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## it's an excercise on how to create a custom hooks and using the navigator object
